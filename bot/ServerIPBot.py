@@ -127,6 +127,12 @@ def get_server_status_as_str(ip):
         return "The server is currently down."
     return "The server is currently up, with {0} users connected. ({1}ms response time)".format(status.players.online, status.latency)
 
+def get_help():
+    return """
+`~status`\t\tGet the server's status.
+`~ip`\t\t\t\tGet the server's IP address.
+"""
+
 @client.event
 async def on_message(message):
     # Basic guard for the bot messages
@@ -165,7 +171,11 @@ async def on_message(message):
             return
 
         if cmd.startswith('~'):
-            print('Could not understand command:', cmd)
+            print('Could not understand command (as admin):', cmd)
+
+    if re.match(r"~help", mcl) is not None:
+        await channel.send(get_help())
+        return
 
     if re.match(r"hey vsauce,?", mcl) is not None:
         await channel.send("Michael here!")
