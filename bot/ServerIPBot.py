@@ -159,10 +159,15 @@ async def on_message(message):
         if ec is not None:
             await channel.send(ec.group(1))
             return
+        ipext = ':14515'
+        if re.match(r"~ipforce", message.content.lower()) is not None:
+            newip = get_ip_updated(True)
+            await channel.send('IP: `' + newip + ipext + '`')
+            return
         if re.match(r"~ip", message.content.lower()) is not None:
             newip = get_ip_updated()
             if newip is not None:
-                await channel.send('New IP: `' + newip + '`')
+                await channel.send('New IP: `' + newip + ipext + '`')
             else:
                 await channel.send('IP is unchanged.')
             return

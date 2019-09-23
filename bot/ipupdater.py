@@ -24,7 +24,7 @@ def save(ip):
     with open(get_ip_path(), 'w') as file:
         json.dump({'old-private': ip.private, 'old-public': ip.public}, file, indent=2)
 
-def get_ip_updated():
+def get_ip_updated(force=False):
     prev = safe_load_json(get_ip_path())
     ip = get_ips()
     save(ip)
@@ -35,7 +35,7 @@ def get_ip_updated():
     else:
         print('Private IP changed, new:', ip.private)
 
-    if 'old-public' in prev and prev['old-public'] == ip.public:
+    if 'old-public' in prev and prev['old-public'] == ip.public and not force:
         # No change
         return None
     else:
